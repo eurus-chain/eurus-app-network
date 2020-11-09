@@ -1,8 +1,8 @@
 name: hello
-description: A new flutter plugin project.
-version: 0.0.1
-author:
-homepage:
+description: A new flutter api handler.
+version: 0.1.0
+author: GOLDHUB FINTECH LIMITED
+homepage: https://www.goldhub.hk
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  dio: ^3.0.10
 
 dev_dependencies:
   flutter_test:
