@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:apiHandler/apiHandler.dart';
-
+import 'package:apiHandler/common.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,7 +26,7 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await ApiHandler.platformVersion;
+      platformVersion = common.clientType;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
