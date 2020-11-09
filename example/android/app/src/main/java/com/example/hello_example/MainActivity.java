@@ -1,4 +1,4 @@
-package com.example.hello_example;
+package com.goldhub.apiHandler_example;
 
 import io.flutter.embedding.android.FlutterActivity;
 

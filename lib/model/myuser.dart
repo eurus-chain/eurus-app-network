@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:hello/model/signin.dart';
 import '../common.dart';
+import 'signin.dart';
 
 class MyUser{
     String phoneCode;

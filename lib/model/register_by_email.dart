@@ -1,7 +1,7 @@
-import 'package:hello/model/signup.dart';
 
 import '../common.dart';
 import 'retrieve.dart';
+import 'signup.dart';
 
 class RetrieveRegisterByEmail extends Retrieve {
     final RegisterByEmailRequest data;

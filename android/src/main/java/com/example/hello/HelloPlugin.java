@@ -1,4 +1,4 @@
-package com.example.hello;
+package com.goldhub.apiHandler;
 
 import androidx.annotation.NonNull;
 
@@ -19,7 +19,7 @@ public class HelloPlugin implements FlutterPlugin, MethodCallHandler {
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "hello");
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "apiHandler");
     channel.setMethodCallHandler(this);
   }
 

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'appExceptions.dart';
 
@@ -9,6 +10,14 @@ Map<String, dynamic> optHeader = {
 
 
 class ApiHandler {
+  static const MethodChannel _channel =
+  const MethodChannel('apiHandler');
+
+  static Future<String> get platformVersion async {
+    final String version = await _channel.invokeMethod('getPlatformVersion');
+    return version;
+  }
+
   static final ApiHandler _instance = ApiHandler._internal();
   var dio = new Dio(BaseOptions(connectTimeout: 30000, headers: optHeader));
 
