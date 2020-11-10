@@ -1,3 +1,4 @@
+import 'package:apiHandler/model/wealthManagement/card_trans_rule.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -27,6 +28,13 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = common.clientType;
+      RetrieveCardTransRule cardTransRule = RetrieveCardTransRule(data: CardTransRuleRequest(appId: common.appId,timezone: 12,cardId: "abcs"));
+      cardTransRule.sign = "abc";
+      cardTransRule.phone = "12345678";
+      cardTransRule.phoneCode = "86";
+      cardTransRule.email = "abcd@gmail.com";
+      print("object.toString():${cardTransRule.toString()}");
+      print("object.toJson():${cardTransRule.toJson()}");
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }

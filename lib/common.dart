@@ -35,8 +35,8 @@ class Common {
     return (ms / 1000).round();
   }
 
-  String deviceId;
-  String appId;
+  String deviceId = "abcdefg";
+  String appId = "testingAppId";
   String appUpdateUrl;
   MyUser user;
   String serverUrl;

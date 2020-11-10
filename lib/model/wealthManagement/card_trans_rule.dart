@@ -1,6 +1,3 @@
-
-
-import '../get_avatar.dart';
 import '../retrieve.dart';
 
 class RetrieveCardTransRule extends Retrieve {
@@ -10,29 +7,18 @@ class RetrieveCardTransRule extends Retrieve {
     RetrieveCardTransRule({this.data})
         : super(retrieve: 'card_trans_rule');
 
-    Map<String, dynamic> toJson() =>
-        {
-            'appid': appId,
-            'data': data.toJson(),
-            'phone': phone,
-            'phone_code': phoneCode,
-            'retrieve': retrieve,
-            'seq': seq,
-            'sign': sign,
-            'sign_type': signType,
-            'token': token??''
-        };
+    Map<String, dynamic> toJson() {
+
+      Map mapData = super.toJson();
+      mapData['data'] = data.toJson();
+      return mapData;
+    }
+
 
     String toString() {
-        String tt = token??'';
-
-        String str = 'appid=' + appId + '&data=' + data.toString() +
-             '&phone=' + phone + '&phone_code=' + phoneCode +
-            '&retrieve=' + retrieve + '&seq=' + seq +
-            '&sign_type=' + signType + '&token=' + tt;
-
-        // MyLog.d('RetrieveGetAvatar toString=' + str);
-        return str;
+        String string = super.toString();
+        string.replaceAll('addNewData', data.toString());
+        return string;
     }
 
 
@@ -41,7 +27,6 @@ class RetrieveCardTransRule extends Retrieve {
         RetrieveResponse obj = await super.sendRequest(payload);
          if (obj == null) return null;
          if (obj.result == null || obj.result == 0) {
-            // MyLog.d('AddFriendResponse:' + super.respJson.toString());
             var resp = CardTransRuleResponse.fromJson(super.respJson);
             return resp;
          }

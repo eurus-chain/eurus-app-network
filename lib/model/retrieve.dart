@@ -18,7 +18,6 @@ enum Status { LOADING, COMPLETED, ERROR }
 	Data      interface{} `json:"data"`// child: place the following request into data
  */
 class Retrieve {
-    RetrieveResponse respObject;
     var respJson;
     final String appId = common.appId;
     Status status;
@@ -48,63 +47,26 @@ class Retrieve {
       email = user?.phoneOrEmail;
       phone = "";
     }
-
-    // if (token == null || token == '') {
-    //   if (retrieve == "login" ||
-    //       retrieve == "login_by_phone_google_code" ||
-    //       retrieve == "login_by_phone_password" ||
-    //       retrieve == "update_user_device" ||
-    //       retrieve == "change_password" ||
-    //       retrieve == "register_by_userno" ||
-    //       retrieve == "send_sms" ||
-    //       retrieve == "update_user_device") {
-    //
-    //   } else {
-       // throw NetHandlerException(errNo: NetHandlerError.errEmptyToken);
-    //   }
-    // }
   }
 
 
     Future<RetrieveResponse> sendRequest(var payload) async {
-//        if(retrieve!= null){
-//            if(retrieve == "login_by_phone_password" || retrieve == "login_by_token" || retrieve == "login" || retrieve == "logout" || retrieve == "withdraw"|| retrieve == "kickout"){
-//                await common.logMessage(logMessage: json.encode(payload),logType: "sendToServerAPi："+retrieve);
-//            }
-//        }
         var url = common.serverUrl;
-//         if(isWealthManagementAPI(currentApiName: retrieve)){
-//             url = common.serverWealthManagementUrl;
-//         }
-//         if(retrieve == "payment"||retrieve == "get_order"){
-//           url = common.wealthManagementBuyUrl;
-//         }
-//
-//         if(retrieve == "sell"){
-//           url = common.wealthManagementSellUrl;
-//         }
-//
-//         if(payload["seq"] == "0"){
-//           payload["seq"] = "${common.currentTimeInSeconds().toString()}-"+retrieve;
-//         }
-
         respJson = await apiHandler.post(url, payload);
-        //if(isLogAPI(currentApiName: retrieve)){
             String jsonString = jsonEncode(respJson);
             jsonString = jsonString;
             log("payload:$payload");
             log("respJson: $respJson");
-       // }
+        RetrieveResponse respObject;
+        respObject.inputObject = this;
         if(respJson != null){
-          respObject = RetrieveResponse.fromJson(respJson);
+           respObject = RetrieveResponse.fromJson(respJson);
         }
         return respObject;
     }
 
 
     Future<String> getVersion() async {
-        // String url = 'https://api-v2.bitoll.com/app/version';
-        // String url = 'https://86zfag3wd6.execute-api.ap-southeast-1.amazonaws.com/prd/version';
         Uri uri = Uri.parse(common.appUpdateUrl);
         var httpClient = new HttpClient();
         String result;
@@ -129,6 +91,31 @@ class Retrieve {
         httpClient.close();
         return data;
     }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'appid': appId,
+      'phone': phone,
+      'phone_code': phoneCode,
+      'retrieve': retrieve,
+      'seq': seq,
+      'sign': sign,
+      'sign_type': signType,
+      'token': token ?? ''
+    };
+  }
+
+    String toString() {
+      String tt = token??'';
+
+      String str = 'appid=' + appId + 'addNewData' +
+          '&phone=' + phone + '&phone_code=' + phoneCode +
+          '&retrieve=' + retrieve + '&seq=' + seq +
+          '&sign_type=' + signType + '&token=' + tt;
+
+      // MyLog.d('RetrieveGetAvatar toString=' + str);
+      return str;
+    }
 }
 
 /*
@@ -138,6 +125,7 @@ class Retrieve {
  Comment  string         `json:"comment"`
  */
 class RetrieveResponse {
+    Retrieve inputObject;
     String retrieve;
     String seq;
     int result;
