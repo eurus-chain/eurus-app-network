@@ -8,19 +8,16 @@ class RetrieveCardTransRule extends Retrieve {
         : super(retrieve: 'card_trans_rule');
 
     Map<String, dynamic> toJson() {
-
       Map mapData = super.toJson();
       mapData['data'] = data.toJson();
       return mapData;
     }
-
 
     String toString() {
         String string = super.toString();
         string.replaceAll('addNewData', data.toString());
         return string;
     }
-
 
     @override
     Future<RetrieveResponse> sendRequest(var payload) async {
@@ -35,9 +32,6 @@ class RetrieveCardTransRule extends Retrieve {
     }
 }
 
-/*
-	Fileid string `json:"fileid"`
- */
 class CardTransRuleRequest {
     final String appId;
     final int timezone;
