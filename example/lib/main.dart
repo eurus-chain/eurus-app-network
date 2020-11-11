@@ -1,3 +1,4 @@
+import 'package:apiHandler/apiHandler.dart';
 import 'package:apiHandler/model/wealthManagement/card_trans_rule.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -35,6 +36,16 @@ class _MyAppState extends State<MyApp> {
       cardTransRule.email = "abcd@gmail.com";
       print("object.toString():${cardTransRule.toString()}");
       print("object.toJson():${cardTransRule.toJson()}");
+
+      //checkConnectivity
+      ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+      print("start connectivityResult:$connectivityResult");
+
+      // onConnectivityChanged
+      apiHandler.onConnectivityChanged.listen((ConnectivityResult result) {
+       print("ConnectivityResult:$result");
+      });
+
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }

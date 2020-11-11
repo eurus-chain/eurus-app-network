@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
+import 'package:connectivity/connectivity.dart';
 import 'dart:async';
 import 'appExceptions.dart';
+export 'package:connectivity/connectivity.dart';
 
 Map<String, dynamic> optHeader = {
   'accept-language': 'utf-8',
@@ -10,13 +11,6 @@ Map<String, dynamic> optHeader = {
 
 
 class ApiHandler {
-  static const MethodChannel _channel =
-  const MethodChannel('apiHandler');
-
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
 
   static final ApiHandler _instance = ApiHandler._internal();
   var dio = new Dio(BaseOptions(connectTimeout: 30000, headers: optHeader));
@@ -60,6 +54,16 @@ class ApiHandler {
       handleError(e: e);
     }
   }
+
+  Future<ConnectivityResult> checkConnectivity() async {
+    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+    return connectivityResult;
+  }
+
+  Stream<ConnectivityResult> get onConnectivityChanged {
+    return Connectivity().onConnectivityChanged;
+  }
+
 }
 
 dynamic handleError({DioError e}) {
