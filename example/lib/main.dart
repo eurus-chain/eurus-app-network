@@ -1,3 +1,4 @@
+import 'package:apiHandler/apiCaller.dart';
 import 'package:apiHandler/apiHandler.dart';
 import 'package:apiHandler/model/wealthManagement/card_trans_rule.dart';
 import 'package:flutter/material.dart';
@@ -15,49 +16,33 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  String _platformVersion = '10';
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    demoMethod();
   }
+  
+  void demoMethod() async{
+    RetrieveCardTransRule cardTransRule = RetrieveCardTransRule(data: CardTransRuleRequest(appId: common.appId,timezone: 12,cardId: "abcs"));
+    cardTransRule.sign = "abc";
+    cardTransRule.phone = "12345678";
+    cardTransRule.phoneCode = "86";
+    cardTransRule.email = "abcd@gmail.com";
+    print("object.toString():${cardTransRule.toString()}");
+    print("object.toJson():${cardTransRule.toJson()}");
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = common.clientType;
-      RetrieveCardTransRule cardTransRule = RetrieveCardTransRule(data: CardTransRuleRequest(appId: common.appId,timezone: 12,cardId: "abcs"));
-      cardTransRule.sign = "abc";
-      cardTransRule.phone = "12345678";
-      cardTransRule.phoneCode = "86";
-      cardTransRule.email = "abcd@gmail.com";
-      print("object.toString():${cardTransRule.toString()}");
-      print("object.toJson():${cardTransRule.toJson()}");
+    //checkConnectivity
+    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+    print("start connectivityResult:$connectivityResult");
 
-      //checkConnectivity
-      ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
-      print("start connectivityResult:$connectivityResult");
-
-      // onConnectivityChanged
-      apiHandler.onConnectivityChanged.listen((ConnectivityResult result) {
-       print("ConnectivityResult:$result");
-      });
-
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
+    // onConnectivityChanged
+    apiHandler.onConnectivityChanged.listen((ConnectivityResult result) {
+      print("ConnectivityResult:$result");
     });
+
+    apiCaller.signIn(phoneCode: "86",phone: "12345673",smsCode: "000000");
   }
 
   @override

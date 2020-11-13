@@ -1,8 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
+import 'package:pointycastle/asymmetric/api.dart';
+
 import '../apiHandler.dart';
 import '../common.dart';
+import '../rsa_pem.dart';
 import 'myuser.dart';
 export '../common.dart';
 enum Status { LOADING, COMPLETED, ERROR }
@@ -49,6 +52,17 @@ class Retrieve {
     }
   }
 
+    signature(RSAPrivateKey privateKey) {
+      setUpTokenAndPhone();
+      var rsaHelper = new RsaKeyHelper();
+      var str = toString();
+      log("signatureString:$str");
+
+      sign = rsaHelper.sign(str, privateKey);
+
+      log("signatureString:$str");
+      // MyLog.d('signature=' + sign);
+    }
 
     Future<RetrieveResponse> sendRequest(var payload) async {
         var url = common.serverUrl;
