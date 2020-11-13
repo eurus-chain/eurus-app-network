@@ -45,9 +45,9 @@ class Retrieve {
     token = user?.token;
     if(common.isPhoneLogin){
       email = "";
-      phone = user?.phoneOrEmail;
+      phone = user?.Phone;
     } else {
-      email = user?.phoneOrEmail;
+      email = user?.Phone;
       phone = "";
     }
   }

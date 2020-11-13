@@ -4,7 +4,7 @@ import 'signin.dart';
 
 class MyUser{
     String phoneCode;
-    String phoneOrEmail;
+    String Phone;
     String userNo;
     String nickName;
     String pubKeyPem;
@@ -13,6 +13,7 @@ class MyUser{
     String deviceId;
     String logoId;
     String totalGz;
+    String email;
     // real
 	  String randomNumber;
     String realName;
@@ -40,7 +41,7 @@ class MyUser{
     String twofaEnable;
     String paymentSetting;
 
-    MyUser({this.phoneCode, this.phoneOrEmail, this.userNo, this.nickName,
+    MyUser({this.phoneCode, this.Phone, this.userNo, this.nickName,
         this.pubKeyPem, this.prvKeyPem, this.token, this.deviceId, this.logoId, this.totalGz,
         this.randomNumber, this.realName, this.gender, this.birthday,
 		    this.nationality, this.idType, this.idNumber, this.address, this.fileIdFront,
@@ -52,7 +53,7 @@ class MyUser{
 
     MyUser.fromJson(Map<String, dynamic> json)
         :   phoneCode = json['phoneCode'] ?? "",
-            phoneOrEmail = json['phone'],
+            Phone = json['phone'],
             userNo = json['userNo'],
             nickName = json['nickName'],
             pubKeyPem = json['pubKeyPem'],
@@ -82,7 +83,7 @@ class MyUser{
     Map<String, dynamic> toJson() =>
         {
             'phoneCode': phoneCode ?? "",
-            'phone': phoneOrEmail,
+            'phone': Phone,
             'userNo': userNo,
             'nickName': nickName,
             'pubKeyPem': pubKeyPem,
@@ -136,6 +137,6 @@ class MyUser{
     }
 
     bool isEmailLogin(){
-      return phoneOrEmail.contains("@");
+      return Phone.contains("@");
     }
 }

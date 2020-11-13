@@ -22,17 +22,21 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     demoMethod();
+    checkNetwork();
+    callApi();
   }
   
-  void demoMethod() async{
+  void demoMethod(){
     RetrieveCardTransRule cardTransRule = RetrieveCardTransRule(data: CardTransRuleRequest(appId: common.appId,timezone: 12,cardId: "abcs"));
     cardTransRule.sign = "abc";
     cardTransRule.phone = "12345678";
     cardTransRule.phoneCode = "86";
     cardTransRule.email = "abcd@gmail.com";
-    print("object.toString():${cardTransRule.toString()}");
-    print("object.toJson():${cardTransRule.toJson()}");
+    // print("object.toString():${cardTransRule.toString()}");
+    // print("object.toJson():${cardTransRule.toJson()}");
+  }
 
+  void checkNetwork() async{
     //checkConnectivity
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
     print("start connectivityResult:$connectivityResult");
@@ -41,8 +45,14 @@ class _MyAppState extends State<MyApp> {
     apiHandler.onConnectivityChanged.listen((ConnectivityResult result) {
       print("ConnectivityResult:$result");
     });
+  }
 
-    apiCaller.signIn(phoneCode: "86",phone: "12345673",smsCode: "000000");
+  void callApi() async{
+    String phoneCode = "86";
+    String phone = "12345673";
+    String smsCode = "000000";
+    await apiCaller.updateDevice(phoneCode: phoneCode,phone: phone,code: smsCode,email: "");
+    await apiCaller.signIn(phoneCode: phoneCode,phone: phone,code: smsCode);
   }
 
   @override

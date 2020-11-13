@@ -4,6 +4,7 @@ import 'package:apiHandler/model/myuser.dart';
 import 'package:apiHandler/model/retrieve.dart';
 import 'package:apiHandler/model/signin.dart';
 import 'package:apiHandler/model/signin_sms.dart';
+import 'package:apiHandler/model/update_device.dart';
 import 'package:apiHandler/rsa_pem.dart';
 import 'package:pointycastle/pointycastle.dart';
 
@@ -19,19 +20,58 @@ class ApiCaller {
     return _instance;
   }
 
-  Future<MyUser> signIn({String phoneCode, String phone, String smsCode}) async {
+  Future<RetrieveResponse> updateDevice(
+      {String phoneCode,
+        String phone,
+        String email,
+        String userNo,
+        String code}) async {
+    String loadingApi = 'updateDevice';
+    AsymmetricKeyPair<PublicKey, PrivateKey> keyPair =
+    new RsaKeyHelper().generateKeyPair();
+    var rsaHelper = new RsaKeyHelper();
+    var pubPem = rsaHelper.encodePublicKeyToPem2(keyPair.publicKey);
+    var prvPem = rsaHelper.encodePrivateKeyToPem2(keyPair.privateKey);
+    RSAPrivateKey prvKey = keyPair.privateKey;
+
+    RetrieveUpdateDevice retrieve = new RetrieveUpdateDevice(
+        data: new UpdateDeviceRequest(
+          publicKey: pubPem,
+          smsCode: code,
+          pushId: "123",
+        ),
+        email: email,
+        userNo: userNo,
+        phone: phone,
+        phoneCode: phoneCode);
+
+    retrieve.signature(prvKey); // signature
+
+    RetrieveResponse resp = await retrieve.sendRequest(retrieve.toJson());
+    handleRespError(resp, loadingApi);
+    common.user = MyUser();
+    common.user.phoneCode = retrieve.phoneCode;
+    common.user.Phone = retrieve.phone;
+    common.user.email = retrieve.email;
+    common.user.pubKeyPem = pubPem;
+    common.user.prvKeyPem = prvPem;
+
+    return resp;
+  }
+
+  Future<MyUser> signIn({String phoneCode, String phone, String code}) async {
     String loadingApi = 'login';
 
     RetrieveSignInSms retrieve = new RetrieveSignInSms(
         data: new SignInSmsRequest(
           phone: phone,
           phoneCode: phoneCode,
-          smsCode: smsCode,
+          smsCode: code,
         ));
 
     RSAPrivateKey prvKey = null;
     // read private key
-    MyUser user = MyUser(phoneCode: "86",phoneOrEmail: "12345678");
+    MyUser user = MyUser(phoneCode: "86",Phone: "12345678");
     if (user == null || user.prvKeyPem == null) {
       throw NetHandlerException(errNo: NetHandlerError.errNoPrivateKey);
     }
