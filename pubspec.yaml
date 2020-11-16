@@ -15,6 +15,7 @@ dependencies:
   connectivity: ^2.0.1
   pointycastle: ^1.0.2
   asn1lib: ^0.6.5
+  web3dart: ^1.2.3
 
 dev_dependencies:
   flutter_test:
