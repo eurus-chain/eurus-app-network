@@ -18,16 +18,30 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = '10';
+  int _counter = 0;
 
   @override
   void initState() {
     super.initState();
    // testingModelData();
     checkNetwork();
+  }
+
+
+  void _incrementCounter() {
     Web3dart().getOwnerAddress();
     Web3dart().sendETHTransaction();
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
+    });
   }
-  
+
+
   void testingModelData(){
     RetrieveCardTransRule cardTransRule = RetrieveCardTransRule(data: CardTransRuleRequest(appId: common.appId,timezone: 12,cardId: "abcs"));
     cardTransRule.sign = "abc";
@@ -65,8 +79,16 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child:  Text(
+            '$_counter',
+            style: Theme.of(context).textTheme.headline4,
+          ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _incrementCounter,
+          tooltip: 'Increment',
+          child: Icon(Icons.add),
+        ), // This trail
       ),
     );
   }
