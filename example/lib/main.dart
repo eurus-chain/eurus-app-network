@@ -1,6 +1,7 @@
 import 'package:apiHandler/apiCaller.dart';
 import 'package:apiHandler/apiHandler.dart';
 import 'package:apiHandler/model/wealthManagement/card_trans_rule.dart';
+import 'package:apiHandler/web3dart.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -21,12 +22,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    demoMethod();
+   // testingModelData();
     checkNetwork();
-    callApi();
+    getOwnerAddress();
   }
   
-  void demoMethod(){
+  void testingModelData(){
     RetrieveCardTransRule cardTransRule = RetrieveCardTransRule(data: CardTransRuleRequest(appId: common.appId,timezone: 12,cardId: "abcs"));
     cardTransRule.sign = "abc";
     cardTransRule.phone = "12345678";
@@ -47,13 +48,17 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void callApi() async{
-    String phoneCode = "86";
-    String phone = "12345673";
-    String smsCode = "000000";
-    await apiCaller.updateDevice(phoneCode: phoneCode,phone: phone,code: smsCode,email: "");
-    await apiCaller.signIn(phoneCode: phoneCode,phone: phone,code: smsCode);
+  void getOwnerAddress() async{
+    Web3dart().getOwnerAddress();
   }
+
+  // void callApi() async{
+  //   String phoneCode = "86";
+  //   String phone = "12345673";
+  //   String smsCode = "000000";
+  //   await apiCaller.updateDevice(phoneCode: phoneCode,phone: phone,code: smsCode,email: "");
+  //   await apiCaller.signIn(phoneCode: phoneCode,phone: phone,code: smsCode);
+  // }
 
   @override
   Widget build(BuildContext context) {
