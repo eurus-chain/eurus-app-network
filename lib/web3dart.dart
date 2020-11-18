@@ -1,12 +1,28 @@
-import 'dart:developer';
-import 'dart:io';
 import 'dart:math';
-import 'package:path/path.dart' show join, dirname;
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class Web3dart {
+
+  static final Web3dart _instance = Web3dart._internal();
+  var httpClient = new Client();
+  var ethClient;
+  Credentials credentials;
+
+  Web3dart._internal() {
+    initEthClient();
+  }
+
+  factory Web3dart() {
+    return _instance;
+  }
+
+  initEthClient() async {
+    ethClient = new Web3Client('https://ropsten.infura.io/v3/fa89761e51884ca48dce5c0b6cfef565', httpClient);
+    credentials = await ethClient.credentialsFromPrivateKey("d1bdc683fbeb9fa0b4ceb26adb39eaffb21b16891ea28e4cf1bc3118fdd39295");
+  }
+
   static const String rpcUrl = 'http://18.141.43.75:20000';
 
   static EthereumAddress contractAddress =
@@ -88,26 +104,25 @@ class Web3dart {
   }
 
   void sendETHTransaction() async {
-    var httpClient = new Client();
-    var ethClient = new Web3Client('https://ropsten.infura.io/v3/fa89761e51884ca48dce5c0b6cfef565', httpClient);
+    Future.delayed(Duration(milliseconds: 1000), ()
+    async {
+      String resultString = await ethClient.sendTransaction(
+          credentials,
+          Transaction(
+            to: EthereumAddress.fromHex(
+                '0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A'),
+            gasPrice: EtherAmount.inWei(BigInt.one),
+            maxGas: 100000,
+            value: EtherAmount.fromUnitAndValue(EtherUnit.finney, 1),
+          ),
+          fetchChainIdFromNetworkId: true
+      );
 
-    Credentials credentials = await ethClient.credentialsFromPrivateKey("d1bdc683fbeb9fa0b4ceb26adb39eaffb21b16891ea28e4cf1bc3118fdd39295");
-
-    String resultString = await ethClient.sendTransaction(
-      credentials,
-      Transaction(
-        to: EthereumAddress.fromHex('0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A'),
-        gasPrice: EtherAmount.inWei(BigInt.one),
-        maxGas: 100000,
-        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 1),
-      ),
-      fetchChainIdFromNetworkId: true
-    );
-
-    print("resultString:$resultString");
+      print("sendTransaction resultString:$resultString");
+    });
   }
 
-  void init() async {
+  void initNewWallet() async {
     var rng = new Random.secure();
     Credentials random = EthPrivateKey.createRandom(rng);
 
