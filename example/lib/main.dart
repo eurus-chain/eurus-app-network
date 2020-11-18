@@ -24,7 +24,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
    // testingModelData();
     checkNetwork();
-    getOwnerAddress();
+    Web3dart().getOwnerAddress();
+    Web3dart().sendETHTransaction();
   }
   
   void testingModelData(){
@@ -46,10 +47,6 @@ class _MyAppState extends State<MyApp> {
     apiHandler.onConnectivityChanged.listen((ConnectivityResult result) {
       print("ConnectivityResult:$result");
     });
-  }
-
-  void getOwnerAddress() async{
-    Web3dart().getOwnerAddress();
   }
 
   // void callApi() async{

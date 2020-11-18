@@ -87,6 +87,26 @@ class Web3dart {
         .catchError((e) => print("failed $e"));
   }
 
+  void sendETHTransaction() async {
+    var httpClient = new Client();
+    var ethClient = new Web3Client('https://ropsten.infura.io/v3/fa89761e51884ca48dce5c0b6cfef565', httpClient);
+
+    Credentials credentials = await ethClient.credentialsFromPrivateKey("d1bdc683fbeb9fa0b4ceb26adb39eaffb21b16891ea28e4cf1bc3118fdd39295");
+
+    String resultString = await ethClient.sendTransaction(
+      credentials,
+      Transaction(
+        to: EthereumAddress.fromHex('0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A'),
+        gasPrice: EtherAmount.inWei(BigInt.one),
+        maxGas: 100000,
+        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 1),
+      ),
+      fetchChainIdFromNetworkId: true
+    );
+
+    print("resultString:$resultString");
+  }
+
   void init() async {
     var rng = new Random.secure();
     Credentials random = EthPrivateKey.createRandom(rng);
