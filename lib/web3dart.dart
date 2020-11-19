@@ -9,6 +9,10 @@ class Web3dart {
   Client httpClient = new Client();
   Web3Client ethClient;
   Credentials credentials;
+  EthereumAddress toETHAddress = EthereumAddress.fromHex(
+      "0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A");
+  EthereumAddress fromETHAddress = EthereumAddress.fromHex(
+      "0x44f426bc9ac7a83521EA140Aeb70523C0a85945a");
 
   Web3dart._internal() {
     initEthClient();
@@ -23,12 +27,11 @@ class Web3dart {
     credentials = await ethClient.credentialsFromPrivateKey("d1bdc683fbeb9fa0b4ceb26adb39eaffb21b16891ea28e4cf1bc3118fdd39295");
   }
 
-  static const String rpcUrl = 'http://18.141.43.75:20000';
-
-  static EthereumAddress contractAddress =
-      EthereumAddress.fromHex('0xfeae27388A65eE984F452f86efFEd42AaBD438FD');
 
   void getOwnerAddress() async {
+     const String rpcUrl = 'http://18.141.43.75:20000';
+     EthereumAddress contractAddress =
+    EthereumAddress.fromHex('0xfeae27388A65eE984F452f86efFEd42AaBD438FD');
     final client = Web3Client(rpcUrl, Client());
     String contractAbi = '''[
       {
@@ -107,8 +110,7 @@ class Web3dart {
       String resultString = await ethClient.sendTransaction(
           credentials,
           Transaction(
-            to: EthereumAddress.fromHex(
-                '0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A'),
+            to: toETHAddress,
             gasPrice: EtherAmount.inWei(BigInt.one),
             maxGas: 100000,
             value: EtherAmount.fromUnitAndValue(EtherUnit.finney, 1),
@@ -117,6 +119,36 @@ class Web3dart {
       );
 
       print("sendTransaction resultString:$resultString");
+  }
+
+  void sendERC20Transaction() async {
+    final EthereumAddress contractAddr =
+    EthereumAddress.fromHex('0x7e0480ca9fd50eb7a3855cf53c347a1b4d6a2ff5');
+
+    String abiCode = '''[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"tokens","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"acceptOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"drip","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"tokens","type":"uint256"},{"name":"data","type":"bytes"}],"name":"approveAndCall","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"newOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"tokenAddress","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transferAnyERC20Token","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"tokenOwner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Approval","type":"event"}]''';
+
+
+    final contract = DeployedContract(ContractAbi.fromJson(abiCode, 'MetaCoin'), contractAddr);
+
+    // extracting some functions and events that we'll need later
+    final transferEvent = contract.function('transfer');
+    final balanceFunction = contract.function('balanceOf');
+    final balance = await ethClient.call(
+        contract: contract, function: balanceFunction, params: [fromETHAddress]);
+    print('We have ${balance.first} MetaCoins');
+
+   String sendTransaction =  await ethClient.sendTransaction(
+      credentials,
+      Transaction.callContract(
+        gasPrice: EtherAmount.inWei(BigInt.from(300)),
+        maxGas: 300000,
+        contract: contract,
+        function: transferEvent,
+        parameters: [toETHAddress, BigInt.from(1000000000000000000)],
+      ),
+       fetchChainIdFromNetworkId: true
+    );
+    print("sendTransaction result:$sendTransaction");
   }
 
   void getETHClientDetail() async {

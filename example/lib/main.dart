@@ -31,8 +31,9 @@ class _MyAppState extends State<MyApp> {
     checkNetwork();
     Web3dart().getOwnerAddress();
     Future.delayed(Duration(milliseconds: 1000), () {
-      // Web3dart().sendETHTransaction();
+    //  Web3dart().sendETHTransaction();
       Web3dart().getETHClientDetail();
+      Web3dart().sendERC20Transaction();
     });
     Future.delayed(Duration(milliseconds: 4000), () {
       Web3dart().getAddressDetail();
