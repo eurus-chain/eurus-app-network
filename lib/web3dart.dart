@@ -6,8 +6,8 @@ import 'package:flutter/services.dart' show rootBundle;
 class Web3dart {
 
   static final Web3dart _instance = Web3dart._internal();
-  var httpClient = new Client();
-  var ethClient;
+  Client httpClient = new Client();
+  Web3Client ethClient;
   Credentials credentials;
 
   Web3dart._internal() {
@@ -99,13 +99,11 @@ class Web3dart {
           function: setOwnerFunction,
           params: [],
         )
-        .then((value) => print("result: $value"))
-        .catchError((e) => print("failed $e"));
+        .then((value) => print("company eth node getOwner: $value"))
+        .catchError((e) => print("catchError $e"));
   }
 
   void sendETHTransaction() async {
-    Future.delayed(Duration(milliseconds: 1000), ()
-    async {
       String resultString = await ethClient.sendTransaction(
           credentials,
           Transaction(
@@ -119,7 +117,31 @@ class Web3dart {
       );
 
       print("sendTransaction resultString:$resultString");
-    });
+  }
+
+  void getETHClientDetail() async {
+    print("---------------------- getETHClientDetail ----------------------");
+    print("getClientVersion:${await ethClient.getClientVersion()}");
+    print("getBlockNumber:${await ethClient.getBlockNumber()}");
+    print("getGasPrice:${await ethClient.getGasPrice()}");
+    print("getEtherProtocolVersion:${await ethClient.getEtherProtocolVersion()}");
+    print("getMiningHashrate:${await ethClient.getMiningHashrate()}");
+    print("getNetworkId:${await ethClient.getNetworkId()}");
+    print("getPeerCount:${await ethClient.getPeerCount()}");
+  }
+
+  void getAddressDetail() async {
+    print("---------------------- getAddressDetail ----------------------");
+    print("getBalance:${await ethClient.getBalance(EthereumAddress.fromHex(
+        '0x44f426bc9ac7a83521EA140Aeb70523C0a85945a'),)}");
+    print("etTransactionCount:${await ethClient.getTransactionCount(EthereumAddress.fromHex(
+        '0x44f426bc9ac7a83521EA140Aeb70523C0a85945a'),)}");
+    TransactionReceipt transactionReceipt = await ethClient.getTransactionReceipt("0xfa0a7ed6a87b655f2302ce2d88d1d051c4eeef2af6e82de9850f3527a8106744");
+    print("---------------------- hash data ----------------------");
+    print("transactionReceipt.contractAddress:${transactionReceipt.contractAddress}");
+    print("transactionReceipt.gasUsed:${transactionReceipt.gasUsed}");
+    print("transactionReceipt.from:${transactionReceipt.from}");
+    print("transactionReceipt.to:${transactionReceipt.to}");
   }
 
   void initNewWallet() async {
