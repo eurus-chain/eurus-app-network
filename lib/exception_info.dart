@@ -1,3 +1,4 @@
+// NetHandlerError Type
 enum NetHandlerError {
   errEmptyName,
   errEmptyPhone,
@@ -24,21 +25,26 @@ enum NetHandlerError {
   errEmail,
 }
 
+// NetHandlerException
 class NetHandlerException implements Exception {
   final NetHandlerError errNo;
   final int errNoSub;
   final String errMessage;
   final int pinCodeErrCount;
-  NetHandlerException({this.errNo, this.errNoSub, this.errMessage, this.pinCodeErrCount});
+  // init
+  NetHandlerException(
+      {this.errNo, this.errNoSub, this.errMessage, this.pinCodeErrCount});
 
   NetHandlerError errorCode() {
     return this.errNo;
   }
 
+  // errorSub
   int errorSub() {
     return this.errNoSub;
   }
 
+  // errorMessage
   String errorMessage() {
     if (this.errMessage != null && this.errMessage != '')
       return this.errMessage;

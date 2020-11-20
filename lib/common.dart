@@ -12,7 +12,8 @@ class Common {
     return _instance;
   }
 
-   String getBase64Decode(String src) {
+  // getBase64Decode
+  String getBase64Decode(String src) {
     try {
       if (src != null) {
         Uint8List dSrc = base64Decode(src);
@@ -26,7 +27,7 @@ class Common {
     return src;
   }
 
-
+// get currentTimeInSeconds
   int currentTimeInSeconds() {
     var ms = (new DateTime.now()).millisecondsSinceEpoch;
     return (ms / 1000).round();

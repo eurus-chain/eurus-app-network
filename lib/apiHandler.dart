@@ -9,24 +9,23 @@ Map<String, dynamic> optHeader = {
   'content-type': 'application/json'
 };
 
-
 class ApiHandler {
-
   static final ApiHandler _instance = ApiHandler._internal();
   var dio = new Dio(BaseOptions(connectTimeout: 30000, headers: optHeader));
 
   ApiHandler._internal() {
     initDio();
   }
-
+  // init method
   factory ApiHandler() {
     return _instance;
   }
-
-  initDio(){
+  // init Dio
+  initDio() {
     dio.interceptors.add(LogInterceptor());
   }
 
+  // get method
   Future get(String url, [Map<String, dynamic> params]) async {
     try {
       var response;
@@ -41,6 +40,7 @@ class ApiHandler {
     }
   }
 
+// post method
   Future post(String url, Map<String, dynamic> params) async {
     try {
       var response;
@@ -55,17 +55,20 @@ class ApiHandler {
     }
   }
 
+  // checkConnectivity
   Future<ConnectivityResult> checkConnectivity() async {
-    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+    ConnectivityResult connectivityResult =
+        await (Connectivity().checkConnectivity());
     return connectivityResult;
   }
 
+  // onConnectivityChanged
   Stream<ConnectivityResult> get onConnectivityChanged {
     return Connectivity().onConnectivityChanged;
   }
-
 }
 
+// handleError
 dynamic handleError({DioError e}) {
   switch (e.response.statusCode) {
     case 400:

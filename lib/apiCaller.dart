@@ -1,16 +1,15 @@
 import 'package:apihandler/exception_info.dart';
 
-
 class ApiCaller {
-
   static final ApiCaller _instance = ApiCaller._internal();
 
   ApiCaller._internal();
 
+  // init method
   factory ApiCaller() {
     return _instance;
   }
-
+  // handleRespError
   handleRespError(resp, tag) {
     if (resp == null) {
       throw NetHandlerException(errNo: NetHandlerError.errResponseNull);
@@ -21,10 +20,10 @@ class ApiCaller {
           errNoSub: resp.result,
           errMessage: msg,
           pinCodeErrCount:
-          resp.pinCodeErrCount != null ? resp.pinCodeErrCount : 0);
+              resp.pinCodeErrCount != null ? resp.pinCodeErrCount : 0);
     }
   }
-
 }
 
+// you can use this apiCaller
 ApiCaller apiCaller = ApiCaller();
