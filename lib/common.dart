@@ -1,8 +1,5 @@
 import 'dart:convert';
-
 import 'dart:typed_data';
-
-import 'model/myuser.dart';
 
 class Common {
   static final Common _instance = Common._internal();
@@ -35,13 +32,13 @@ class Common {
     return (ms / 1000).round();
   }
 
-  String deviceId = "abcdefg";
-  String appId = "testingAppId";
-  String appUpdateUrl;
-  MyUser user;
-  String serverUrl;
-  bool isPhoneLogin = true;
-  String clientType = '11';
+  // String deviceId = "abcdefg";
+  // String appId = "testingAppId";
+  // String appUpdateUrl;
+  // MyUser user;
+  // String serverUrl;
+  // bool isPhoneLogin = true;
+  // String clientType = '11';
 }
 
 Common common = Common();

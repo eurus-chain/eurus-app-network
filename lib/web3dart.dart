@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
-import 'package:flutter/services.dart' show rootBundle;
 export 'package:web3dart/web3dart.dart';
 
 class Web3dart {

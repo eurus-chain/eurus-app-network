@@ -1,6 +1,6 @@
 name: apihandler
-description: A new flutter api handler.
-version: 0.1.0
+description: Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
+version: 0.1.1
 homepage: https://www.goldhub.hk
 
 environment:
@@ -13,10 +13,7 @@ dependencies:
   dio: ^3.0.10
   http: ^0.12.2
   connectivity: ^2.0.1
-  pointycastle: ^1.0.2
-  asn1lib: ^0.6.5
   web3dart: ^1.2.3
-  dartdoc: ^0.36.2
 
 dev_dependencies:
   flutter_test:

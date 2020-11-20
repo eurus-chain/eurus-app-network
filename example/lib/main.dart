@@ -1,11 +1,7 @@
-import 'package:apihandler/apiCaller.dart';
 import 'package:apihandler/apiHandler.dart';
-import 'package:apihandler/model/wealthManagement/card_trans_rule.dart';
 import 'package:apihandler/web3dart.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:apihandler/common.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +13,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = '10';
   int _counter = 0;
 
   @override
@@ -42,17 +37,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _counter++;
     });
-  }
-
-
-  void testingModelData(){
-    RetrieveCardTransRule cardTransRule = RetrieveCardTransRule(data: CardTransRuleRequest(appId: common.appId,timezone: 12,cardId: "abcs"));
-    cardTransRule.sign = "abc";
-    cardTransRule.phone = "12345678";
-    cardTransRule.phoneCode = "86";
-    cardTransRule.email = "abcd@gmail.com";
-    // print("object.toString():${cardTransRule.toString()}");
-    // print("object.toJson():${cardTransRule.toJson()}");
   }
 
   void checkNetwork() async{
