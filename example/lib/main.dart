@@ -30,9 +30,9 @@ class _MyAppState extends State<MyApp> {
   void _incrementCounter() {
     checkNetwork();
     web3dart.getOwnerAddress();
+    web3dart.setUpPrivateKey(privateKey:'d1bdc683fbeb9fa0b4ceb26adb39eaffb21b16891ea28e4cf1bc3118fdd39295');
     Future.delayed(Duration(milliseconds: 1000), () {
-      web3dart.setUpPrivateKey(privateKey:'0x7e0480ca9fd50eb7a3855cf53c347a1b4d6a2ff5');
-      web3dart.sendETHTransaction(amount: EtherAmount.fromUnitAndValue(EtherUnit.finney, 1),toAddress:'0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A');
+    //  web3dart.sendETHTransaction(amount: EtherAmount.fromUnitAndValue(EtherUnit.finney, 1),toAddress:'0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A');
       web3dart.getETHClientDetail();
     });
     Future.delayed(Duration(milliseconds: 4000), () {
