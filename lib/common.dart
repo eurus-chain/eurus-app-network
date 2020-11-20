@@ -5,14 +5,14 @@ class Common {
   static final Common _instance = Common._internal();
 
   Common._internal() {
-    // init things inside this
+    /// init things inside this
   }
 
   factory Common() {
     return _instance;
   }
 
-  // getBase64Decode
+  /// getBase64Decode
   String getBase64Decode(String src) {
     try {
       if (src != null) {
@@ -27,7 +27,7 @@ class Common {
     return src;
   }
 
-// get currentTimeInSeconds
+/// get currentTimeInSeconds
   int currentTimeInSeconds() {
     var ms = (new DateTime.now()).millisecondsSinceEpoch;
     return (ms / 1000).round();

@@ -16,11 +16,11 @@ class ApiHandler {
   ApiHandler._internal() {
     initDio();
   }
-  // init method
+  /// init method
   factory ApiHandler() {
     return _instance;
   }
-  // init Dio
+  /// init Dio
   initDio() {
     dio.interceptors.add(LogInterceptor());
   }
@@ -40,7 +40,7 @@ class ApiHandler {
     }
   }
 
-// post method
+/// post method
   Future post(String url, Map<String, dynamic> params) async {
     try {
       var response;
@@ -55,20 +55,20 @@ class ApiHandler {
     }
   }
 
-  // checkConnectivity
+  /// checkConnectivity
   Future<ConnectivityResult> checkConnectivity() async {
     ConnectivityResult connectivityResult =
         await (Connectivity().checkConnectivity());
     return connectivityResult;
   }
 
-  // onConnectivityChanged
+  /// onConnectivityChanged
   Stream<ConnectivityResult> get onConnectivityChanged {
     return Connectivity().onConnectivityChanged;
   }
 }
 
-// handleError
+/// handleError
 dynamic handleError({DioError e}) {
   switch (e.response.statusCode) {
     case 400:

@@ -9,7 +9,7 @@ class Web3dart {
   Web3Client ethClient;
   Credentials credentials;
 
-  // init method
+  /// init method
   Web3dart._internal() {
     initEthClient();
   }
@@ -18,7 +18,7 @@ class Web3dart {
     return _instance;
   }
 
-  // initEthClient
+  /// initEthClient
   initEthClient() async {
     ethClient = new Web3Client(
         'https://ropsten.infura.io/v3/fa89761e51884ca48dce5c0b6cfef565',
@@ -27,12 +27,12 @@ class Web3dart {
         "d1bdc683fbeb9fa0b4ceb26adb39eaffb21b16891ea28e4cf1bc3118fdd39295");
   }
 
-  // setUpPrivateKey
+  /// setUpPrivateKey
   setUpPrivateKey({String privateKey}) async {
     credentials = await ethClient.credentialsFromPrivateKey(privateKey);
   }
 
-  // getOwnerAddress
+  /// getOwnerAddress
   void getOwnerAddress() async {
     const String rpcUrl = 'http://18.141.43.75:20000';
     EthereumAddress contractAddress =
@@ -111,7 +111,7 @@ class Web3dart {
         .catchError((e) => print("catchError $e"));
   }
 
-  // sendETHTransaction
+  /// sendETHTransaction
   void sendETHTransaction({EtherAmount amount, String toAddress}) async {
     EthereumAddress toETHAddress = EthereumAddress.fromHex(toAddress);
     String resultString = await ethClient.sendTransaction(
@@ -127,7 +127,7 @@ class Web3dart {
     print("sendTransaction resultString:$resultString");
   }
 
-  // sendERC20Transaction
+  /// sendERC20Transaction
   void sendERC20Transaction(
       {String contractAddress, BigInt amount, String toAddress}) async {
     EthereumAddress toETHAddress = EthereumAddress.fromHex(toAddress);
@@ -152,7 +152,7 @@ class Web3dart {
     print("sendTransaction result:$sendTransaction");
   }
 
-  // getETHClientDetail
+  /// getETHClientDetail
   void getETHClientDetail() async {
     print("---------------------- getETHClientDetail ----------------------");
     print("getClientVersion:${await ethClient.getClientVersion()}");
@@ -165,7 +165,7 @@ class Web3dart {
     print("getPeerCount:${await ethClient.getPeerCount()}");
   }
 
-  // getAddressDetail
+  /// getAddressDetail
   void getAddressDetail() async {
     print("---------------------- getAddressDetail ----------------------");
     print("getBalance:${await ethClient.getBalance(
@@ -184,7 +184,7 @@ class Web3dart {
     print("transactionReceipt.to:${transactionReceipt.to}");
   }
 
-  // initNewWallet
+  /// initNewWallet
   void initNewWallet() async {
     var rng = new Random.secure();
     Credentials random = EthPrivateKey.createRandom(rng);
@@ -198,5 +198,5 @@ class Web3dart {
   }
 }
 
-// you can use web3dart
+/// you can use web3dart
 Web3dart web3dart = Web3dart();

@@ -5,11 +5,11 @@ class ApiCaller {
 
   ApiCaller._internal();
 
-  // init method
+  /// init method
   factory ApiCaller() {
     return _instance;
   }
-  // handleRespError
+  /// handleRespError
   handleRespError(resp, tag) {
     if (resp == null) {
       throw NetHandlerException(errNo: NetHandlerError.errResponseNull);
@@ -25,5 +25,5 @@ class ApiCaller {
   }
 }
 
-// you can use this apiCaller
+/// you can use this apiCaller
 ApiCaller apiCaller = ApiCaller();
