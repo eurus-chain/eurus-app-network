@@ -1,7 +1,6 @@
-name: apiHandler
+name: apihandler
 description: A new flutter api handler.
 version: 0.1.0
-author: GOLDHUB FINTECH LIMITED
 homepage: https://www.goldhub.hk
 
 environment:
@@ -12,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^3.0.10
+  http: ^0.12.2
   connectivity: ^2.0.1
   pointycastle: ^1.0.2
   asn1lib: ^0.6.5

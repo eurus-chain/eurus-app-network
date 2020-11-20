@@ -1,11 +1,11 @@
-import 'package:apiHandler/apiCaller.dart';
-import 'package:apiHandler/apiHandler.dart';
-import 'package:apiHandler/model/wealthManagement/card_trans_rule.dart';
-import 'package:apiHandler/web3dart.dart';
+import 'package:apihandler/apiCaller.dart';
+import 'package:apihandler/apiHandler.dart';
+import 'package:apihandler/model/wealthManagement/card_trans_rule.dart';
+import 'package:apihandler/web3dart.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:apiHandler/common.dart';
+import 'package:apihandler/common.dart';
 
 void main() {
   runApp(MyApp());

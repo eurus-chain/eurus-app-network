@@ -1,11 +1,11 @@
-import 'package:apiHandler/apiHandler.dart';
-import 'package:apiHandler/exception_info.dart';
-import 'package:apiHandler/model/myuser.dart';
-import 'package:apiHandler/model/retrieve.dart';
-import 'package:apiHandler/model/signin.dart';
-import 'package:apiHandler/model/signin_sms.dart';
-import 'package:apiHandler/model/update_device.dart';
-import 'package:apiHandler/rsa_pem.dart';
+import 'package:apihandler/apiHandler.dart';
+import 'package:apihandler/exception_info.dart';
+import 'package:apihandler/model/myuser.dart';
+import 'package:apihandler/model/retrieve.dart';
+import 'package:apihandler/model/signin.dart';
+import 'package:apihandler/model/signin_sms.dart';
+import 'package:apihandler/model/update_device.dart';
+import 'package:apihandler/rsa_pem.dart';
 import 'package:pointycastle/pointycastle.dart';
 
 
