@@ -9,6 +9,7 @@ class ApiCaller {
   factory ApiCaller() {
     return _instance;
   }
+
   /// handleRespError
   handleRespError(resp, tag) {
     if (resp == null) {
