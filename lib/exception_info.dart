@@ -31,6 +31,7 @@ class NetHandlerException implements Exception {
   final int errNoSub;
   final String errMessage;
   final int pinCodeErrCount;
+
   /// init
   NetHandlerException(
       {this.errNo, this.errNoSub, this.errMessage, this.pinCodeErrCount});
