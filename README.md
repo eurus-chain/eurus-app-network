@@ -12,7 +12,7 @@ the app might have wifi access but it might be a VPN or a hotel WiFi with no acc
 Sample usage to check current status:
 
 ```dart
-import 'package:connectivity/connectivity.dart';
+import 'package:apihandler/apiHandler.dart';
 
 var connectivityResult = await (Connectivity().checkConnectivity());
 if (connectivityResult == ConnectivityResult.mobile) {
@@ -33,9 +33,6 @@ exposed by connectivity plugin:
 import 'package:apihandler/apiHandler.dart';
 
 void checkNetwork() async{
-    //checkConnectivity
-    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
-    print("start connectivityResult:$connectivityResult");
 
     // onConnectivityChanged
     apiHandler.onConnectivityChanged.listen((ConnectivityResult result) {
