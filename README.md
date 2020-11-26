@@ -1,42 +1,45 @@
-# apiHandler
-A dart library that connects to interact with the Ethereum blockchain. It connects
-to an Ethereum node to send transactions, interact with smart contracts and much
-more!
+# connectivity
 
-### Features
-- Connect to an Ethereum node with the rpc-api, call common methods
-- Send signed Ethereum transactions
-- Generate private keys, setup new Ethereum addresses
-- Call functions on smart contracts and listen for contract events
-### TODO
-- Code generation based on smart contract ABI for easier interaction
-- Encode all supported solidity types, although only (u)fixed,
-  which are not commonly used, are not supported at the moment.
+This plugin allows Flutter apps to discover network connectivity and configure
+themselves accordingly. It can distinguish between cellular vs WiFi connection.
+This plugin works for iOS and Android.
+
+> Note that on Android, this does not guarantee connection to Internet. For instance,
+the app might have wifi access but it might be a VPN or a hotel WiFi with no access.
 
 ## Usage
 
-### Credentials and Wallets
-In order to send transactions on the Ethereum network, some credentials
-are required. The library supports raw private keys and v3 wallet files.
-
-### Only support ropsten testnet now
+Sample usage to check current status:
 
 ```dart
-// You can setup private keys first
-web3dart.setUpPrivateKey(privateKey:'d1bdc683fbeb9fa0b4ceb26adb39eaffb21b16891ea28e4cf1bc3118fdd39295');
+import 'package:connectivity/connectivity.dart';
 
+var connectivityResult = await (Connectivity().checkConnectivity());
+if (connectivityResult == ConnectivityResult.mobile) {
+  // I am connected to a mobile network.
+} else if (connectivityResult == ConnectivityResult.wifi) {
+  // I am connected to a wifi network.
+}
 ```
 
-## Sending transactions
-Of course, this library supports creating, signing and sending Ethereum
-transactions:
+> Note that you should not be using the current network status for deciding
+whether you can reliably make a network connection. Always guard your app code
+against timeouts and errors that might come from the network layer.
+
+You can also listen for network state changes by subscribing to the stream
+exposed by connectivity plugin:
 
 ```dart
+import 'package:apihandler/apiHandler.dart';
 
-/// send ETH Token Transaction
-web3dart.sendETHTransaction(amount: EtherAmount.fromUnitAndValue(EtherUnit.finney, 1),toAddress:'0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A');
+void checkNetwork() async{
+    //checkConnectivity
+    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+    print("start connectivityResult:$connectivityResult");
 
-/// send ERC20 Token Transaction
-web3dart.sendERC20Transaction(contractAddress: '0x7e0480ca9fd50eb7a3855cf53c347a1b4d6a2ff5',amount: BigInt.from(1000000000000000000),toAddress:'0xA3B4dE5E90A18512BD82c1A640AC99b39ef2258A');
-
+    // onConnectivityChanged
+    apiHandler.onConnectivityChanged.listen((ConnectivityResult result) {
+      print("ConnectivityResult:$result");
+    });
+  }
 ```
