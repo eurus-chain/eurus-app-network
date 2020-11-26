@@ -11,9 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^3.0.10
-  http: ^0.12.2
   connectivity: ^2.0.1
-  web3dart: ^1.2.3
 
 dev_dependencies:
   flutter_test:
