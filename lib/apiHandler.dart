@@ -28,14 +28,9 @@ class ApiHandler {
   }
 
   // get method
-  Future get(String url, [Map<String, dynamic> params]) async {
+  Future get(String url, [Map<String, dynamic>? params]) async {
     try {
-      var response;
-      if (params != null) {
-        response = await dio.get(url, queryParameters: params);
-      } else {
-        response = await dio.get(url);
-      }
+      final response = await dio.get(url, queryParameters: params);
       return response.data;
     } on DioError catch (e) {
       handleError(e: e);
@@ -45,12 +40,7 @@ class ApiHandler {
   /// post method
   Future post(String url, Map<String, dynamic> params) async {
     try {
-      var response;
-      if (params != null) {
-        response = await dio.post(url, data: params);
-      } else {
-        response = await dio.post(url);
-      }
+      final response = await dio.post(url, data: params);
       return response.data;
     } on DioError catch (e) {
       handleError(e: e);
@@ -71,17 +61,18 @@ class ApiHandler {
 }
 
 /// handleError
-dynamic handleError({DioError e}) {
-  switch (e.response.statusCode) {
+dynamic handleError({required DioError e}) {
+  final statusCode = e.response?.statusCode ?? -1;
+  switch (statusCode) {
     case 400:
-      throw BadRequestException(e.response.data.toString());
+      throw BadRequestException(e.response?.data.toString());
     case 401:
     case 403:
-      throw UnauthorisedException(e.response.data.toString());
+      throw UnauthorisedException(e.response?.data.toString());
     case 500:
     default:
       throw FetchDataException(
-          'Error occured while Communication with Server with StatusCode : ${e.response.statusCode}');
+          'Error occured while Communication with Server with StatusCode : $statusCode');
   }
 }
 

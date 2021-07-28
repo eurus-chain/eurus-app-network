@@ -13,11 +13,11 @@ class Common {
   }
 
   /// getBase64Decode
-  String getBase64Decode(String src) {
+  String? getBase64Decode(String? src) {
     try {
       if (src != null) {
         Uint8List dSrc = base64Decode(src);
-        if (dSrc != null) {
+        if (dSrc.isNotEmpty) {
           src = utf8.decode(dSrc);
         }
       }

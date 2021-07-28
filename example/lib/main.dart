@@ -16,9 +16,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-   // testingModelData();
+    // testingModelData();
   }
-
 
   void _incrementCounter() {
     checkNetwork();
@@ -27,9 +26,10 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void checkNetwork() async{
+  void checkNetwork() async {
     //checkConnectivity
-    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+    ConnectivityResult connectivityResult =
+        await (Connectivity().checkConnectivity());
     print("start connectivityResult:$connectivityResult");
 
     // onConnectivityChanged
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child:  Text(
+          child: Text(
             '$_counter',
             style: Theme.of(context).textTheme.headline4,
           ),
