@@ -1,8 +1,11 @@
-import 'package:dio/dio.dart';
-import 'package:connectivity/connectivity.dart';
 import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
+
 import 'appExceptions.dart';
-export 'package:connectivity/connectivity.dart';
+
+export 'package:connectivity_plus/connectivity_plus.dart';
 
 Map<String, dynamic> optHeader = {
   'accept-language': 'utf-8',
